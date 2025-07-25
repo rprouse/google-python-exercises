@@ -44,6 +44,34 @@ import sys
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
+def count_words(filename: str) -> dict[str, int]:
+  """Count the occurrences of each word in the file."""
+  words: dict[str, int] = {}
+  with open(filename, 'r') as f:
+    for line in f:
+      for word in map(lambda s: s.lower(), line.split()):
+        if word in words:
+          words[word] += 1
+        else:
+          words[word] = 1
+
+  return words
+
+
+def print_words(filename: str) -> None:
+  """Print each word and its count in alphabetical order."""
+  words = count_words(filename)
+
+  for key in sorted(words.keys()):
+    print(f'{key} {words[key]}')
+
+
+def print_top(filename: str) -> None:
+  """Print the top 20 most common words and their counts."""
+  words = count_words(filename)
+
+  for item in sorted(words.items(), key=lambda t: t[1], reverse=True)[:20]:
+    print(f'{item[0]} {item[1]}')
 
 ###
 
